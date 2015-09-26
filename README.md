@@ -12,7 +12,7 @@ Step 1 - Clone repo anywhere or grab a release from the releases page
 
 Step 2 - In Chrome, visit chrome://extensions/
 
-Step 3 - Click "Load unpacked extensions"
+Step 3 - Check "Developer mode" and click "Load unpacked extensions"
 
 Step 4 - Choose the "ext" folder
 
