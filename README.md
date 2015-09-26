@@ -8,7 +8,7 @@ Chrome extension for live bitcoin and altcoin price  and market data, using the 
 
 # Instructions
 
-Step 1 - Clone repo anywhere
+Step 1 - Clone repo anywhere or grab a release from the releases page
 
 Step 2 - In Chrome, visit chrome://extensions/
 
