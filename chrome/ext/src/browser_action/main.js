@@ -1,6 +1,26 @@
 ﻿var firstConnect = true;
 var SCsocket = {};
 
+Number.prototype.noExponents = function () {
+    var data = String(this).split(/[eE]/);
+    if (data.length == 1) return data[0];
+
+    var z = '', sign = this < 0 ? '-' : '',
+    str = data[0].replace('.', ''),
+    mag = Number(data[1]) + 1;
+
+    if (mag < 0) {
+        z = sign + '0.';
+        while (mag++) z += '0';
+        return z + str.replace(/^\-/, '');
+    }
+    mag -= str.length;
+    while (mag--) z += '0';
+    return str + z;
+}
+
+
+
 function message(theMessage) {
     $('.theMessage').html(theMessage);
     $('#messageBox').modal('show');
@@ -49,7 +69,7 @@ function checkUserData() {
     showSpinner();
     chrome.storage.sync.get(['apiKey', 'apiSecret', 'confirmed'], function (data) {
         
-        console.log(data);
+        
         if (data.confirmed == true) {
                 if (!data.apiKey || !data.apiSecret) {
                     hideSpinner();
@@ -119,40 +139,72 @@ function apiConnect(userData) {
 
                 scChannel.watch(function (data) {
 
-                    
-                    // console.log(data);
-
-                    for (var i in data) {
-                        var divId = data[i].exch_code + "_" + data[i].display_name;
-                        divId = divId.replace(/\//g, 'ForwardSlash');
-                        console.log(data[i]);
+                        var divId = data.exch_code + "_" + data.display_name;
+                        divId = divId.replace(/\//g, '_');
+                        
                         var prevPrice = $("#" + divId + "").find('.lastPrice').html();
+                        prevPrice = Number(prevPrice).noExponents();
 
 
-                        $("#" + divId + "").remove();
-                        var tickerObject = '<div id="' + divId + '" class="col-md-12 tickerObject" data-exchcode="'+data[i].exch_code+'" data-mktname="'+data[i].mkt_name+'" style="padding-left:0px;">' +
-                                                '<div class="exchangeCode">' + data[i].exch_code + '</div>' +
-                                                '<div class="marketName">' + data[i].display_name + '</div>' +
-                                                '<div class="priceData">' +
-                                                    '<div id="lastPrice' + divId + '" class="lastPrice" style="width:100px;height:25px;">' + data[i].last_price + '</div>' +
-                                                    '<div class="volume24h">' + data[i].btc_volume_24 + '</div>' +
-                                                '</div>' +
-                                                '<div class="miniChart"><img src="https://www.coinigy.com/s/svg/' + data[i].exch_code + '/' + data[i].display_name + '" width="110" /></div>' +
-                                           '</div>';
-                        $('#mainRow').append(tickerObject);
+                        data.last_price = Number(data.last_price).noExponents();
 
-                        if (data[i].last_price > prevPrice) {
-                            $("#lastPrice" + divId).prepend("<span class='arrow'>&#9650;</span>");
-                            $("#lastPrice" + divId).addClass("highlightGreen");
-                            $("#lastPrice" + divId).find('.arrow').addClass("disappearing");
-                        } else if (data[i].last_price < prevPrice) {
-                            $("#lastPrice" + divId).prepend("<span class='arrow'>&#9660;</span>");
-                            $("#lastPrice" + divId).addClass("highlightRed");
-                            $("#lastPrice" + divId).find('.arrow').addClass("disappearing");
+                        if (data.btc_volume_24 > 0) {
+                            data.btc_volume_24 = Number(data.btc_volume_24).noExponents();
+                        } else {
+                            data.btc_volume_24 = Number(data.volume_24).noExponents();
+                        }
+                        
+                        if (isNaN(prevPrice)) {
+                            prevPrice = data.last_price;
+                        }
+
+                        
+                        var textFontSize = "";
+                        if (data.display_name.length > 9) { textFontSize = "tinyFontText"; }
+                        if (data.display_name.length > 7) { textFontSize = "smallerFontText"; }
+                        if (data.display_name.length < 8) { textFontSize = "largerFontText"; }
+
+
+                        var priceFontSize = "";
+                        if (data.last_price.length > 10) { priceFontSize = "smallerFont"; }
+                        if (data.last_price.length < 9) { priceFontSize = "largerFont"; }
+
+                        
+                        if ($("#" + divId + "").length) {
+                            $("#" + divId + "").find('.lastPrice').html(data.last_price);
+                            $("#" + divId + "").find('.volume24h').html(data.btc_volume_24);
+                            $("#" + divId + "").find('.arrow').remove();
+                            $("#" + divId + "").find('.lastPriceContainer').removeClass("highlightGreen");
+                            $("#" + divId + "").find('.lastPriceContainer').removeClass("highlightRed");
+                            $("#" + divId + "").find('.lastPriceContainer').removeClass("smallerFont");
+                            $("#" + divId + "").find('.lastPriceContainer').removeClass("largerFont");
+                            $("#" + divId + "").find('.lastPriceContainer').addClass(priceFontSize);
+                        } else {
+                            var tickerObject = '<div id="' + divId + '" class="col-md-12 tickerObject" data-exchcode="' + data.exch_code + '" data-mktname="' + data.mkt_name + '" style="padding-left:0px;">' +
+                                                    '<div class="exchangeCode">' + data.exch_code + '</div>' +
+                                                    '<div class="marketName ' + textFontSize + '">' + data.display_name + '</div>' +
+                                                    '<div class="priceData">' +
+                                                        '<div id="lastPrice' + divId + '" class="lastPriceContainer ' + priceFontSize + '" style="width:100px;height:25px;"><span class="lastPrice">' + data.last_price + '</span></div>' +
+                                                        '<div class="volume24h">' + data.btc_volume_24 + '</div>' +
+                                                    '</div>' +
+                                                    '<div class="miniChart"><img src="https://www.coinigy.com/s/svg/' + data.exch_code + '/' + data.display_name + '" width="110" /></div>' +
+                                               '</div>';
+                            $('#mainRow').append(tickerObject);
                         }
                         
                         
-                    }
+                            if (data.last_price > prevPrice) {
+                                $("#" + divId + "").find('.lastPriceContainer').prepend("<span class='arrow'>&#9650;</span>");
+                                $("#" + divId + "").find('.lastPriceContainer').addClass("highlightGreen");
+                                $("#" + divId + "").find('.lastPriceContainer').find('.arrow').addClass("disappearing");
+                            } else if (data.last_price < prevPrice) {
+                                $("#" + divId + "").find('.lastPriceContainer').prepend("<span class='arrow'>&#9660;</span>");
+                                $("#" + divId + "").find('.lastPriceContainer').addClass("highlightRed");
+                                $("#" + divId + "").find('.lastPriceContainer').find('.arrow').addClass("disappearing");
+                            }
+                        
+                        
+                    
                     if (firstConnect == true) {
                         $('.mainMenu').slideUp();
                         setTimeout(function () {
