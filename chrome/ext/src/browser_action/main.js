@@ -1,5 +1,6 @@
 ﻿var firstConnect = true;
 var SCsocket = {};
+var hasMarkets = false;
 
 Number.prototype.noExponents = function () {
     var data = String(this).split(/[eE]/);
@@ -136,9 +137,15 @@ function apiConnect(userData) {
             if (typeof err == 'undefined') {
                 
                 var scChannel = SCsocket.subscribe("TICKER");
+                
+                var checkMarkets = setTimeout(function () {
+                    if (hasMarkets == false) {
+                        message("<div>It looks like you may not have any <b>Favorite Markets</b> setup on Coinigy. <a href='https://www.coinigy.com/auth/login'>Click here to login and add Favorites</a><br/><img src='img/no_favorites.png'></div>");
+                    }
+                }, 10000);
 
                 scChannel.watch(function (data) {
-
+                        hasMarkets = true;
                         var divId = data.exch_code + "_" + data.display_name;
                         divId = divId.replace(/\//g, '_');
                         
