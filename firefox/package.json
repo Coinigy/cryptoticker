@@ -1,0 +1,15 @@
+{
+  "title": "cryptoticker-firefox",
+  "name": "cryptoticker-firefox",
+  "version": "0.0.1",
+  "description": "Cryptoticker port for Firefox",
+  "main": "index.js",
+  "author": "Cory Savit",
+  "engines": {
+    "firefox": ">=38.0a1"
+  },
+  "license": "MIT",
+  "keywords": [
+    "jetpack"
+  ]
+}

@@ -1,0 +1,79 @@
+<!doctype html>
+<head>
+    <link href="css/main.css" rel="stylesheet" type="text/css" />
+    <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <div class="container">
+        <div id="mainRow" class="row">
+            <div class="topElement">
+                <img class="logo_sm" src="img/logosm.png" />
+                <div class="title">CryptoTicker <span class="by_coinigy">By Coinigy</span></div>
+                <img class="action_icon" src="img/action_icon.png" style="float:right;"/>
+            </div>
+            <div class="mainMenu collapse in">
+                <div class="loader loader--circularSquare hide"></div>
+                <table class="niceTable hide">
+                    <tr class="step1">
+                        <td class="centered" colspan="2">CryptoTicker requires a <a class="bigLink" href="https://www.coinigy.com">Coinigy Account</a>.</td>
+                    </tr>
+                    <tr class="step1">
+                        <td colspan="2"></td>
+                    </tr>
+                    <tr class="step1">
+                        <td class="centered" colspan="2"><a class="biggerLink signupLink" href="https://www.coinigy.com">Sign up now</a></td>
+                    </tr>
+                    <tr class="step1">
+                        <td class="centered or" colspan="2"></td>
+                    </tr>
+                    <tr class="step1">
+                        <td class="spaced" colspan="2"></td>
+                    </tr>
+                    <tr class="step1">
+                        <td class="centered haveAccount" colspan="2"><a href="#" class="biggerLink">I already have an account</a></td>
+                    </tr>
+                    <tr class="step2">
+                        <td class="centered" colspan="2">Please enter your Coinigy API information.</td>
+                    </tr>
+                    <tr class="step2">
+                        <td class="centered" colspan="2"><a class="smallLink" href="https://coinigy.freshdesk.com/support/solutions/articles/1000206500-where-do-i-find-my-coinigy-api-keys-">(Where do i find my api keys?)</a></td>
+                    </tr>
+                    <tr class="step2">
+                        <td class="niceLabel">Coinigy API Key</td>
+                        <td><input class="niceInput" type="text" id="api_key" name="api_key" /></td>
+                    </tr>
+                    <tr class="step2">
+                        <td class="niceLabel">Secret Key</td>
+                        <td><input class="niceInput" type="password" id="api_secret" name="api_secret" /></td>
+                    </tr>
+                    <tr class="step2">
+                        <td class="niceLabel"></td>
+                        <td><button id="activateButton" class="btn btn-success" />Activate</button></td>
+                    </tr>
+                </table>
+                <div class="optionsMenu hide">
+                    <button id="wipeUserData" class=" btn btn-danger optionsObject">Wipe User Data</button>
+                    <div class="centered optionsObject"><a class="bigLink" href="https://www.coinigy.com/user/ticker">Add or Remove Ticker Symbols</a></div>
+                </div>
+            </div>
+        </div>
+        <div id="messageBox" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+
+                    <div class="modal-body">
+                        <p class="theMessage"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    
+</body>
+</html>
