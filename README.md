@@ -1,5 +1,7 @@
 # CryptoTicker by Coinigy
-Chrome extension for live bitcoin and altcoin price  and market data, using the Coinigy API
+Chrome & Firefox extension for live bitcoin and altcoin prices and market data, using the Coinigy API.
+
+![](http://i.imgur.com/Ho6XFHv.png)
 
 This extension requires a Coinigy.com account. You can register for a free 30 day trial at https://www.coinigy.com/auth/signup.
 
