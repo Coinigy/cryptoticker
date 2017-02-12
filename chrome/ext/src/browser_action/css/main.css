@@ -18,13 +18,13 @@ body {
         }
         .exchangeCode {
             float:left;
-            font-size:16px;
+            font-size:14px;
             font-weight:bold;
             line-height:40px;
-            color:#b0c5d9;
+            color:#888;
             width:60px;
             text-align:right;
-            padding-right:2px;
+            padding-right:5px;
         }
         .marketName {
             float:left;
@@ -134,7 +134,7 @@ body {
             height: 60px;
             width: 400px;
             font-family: Helvetica, Ubuntu, Arial, sans-serif;
-            background: #40a3ff;
+            background: #323232;
             margin-left:3px;        
             margin-right:3px; 
             margin-top:3px;   
@@ -152,15 +152,18 @@ body {
         }
         .title {
             float:left;
-            font-weight:bold;
-            color:#fff;
+            font-weight:500;
+            color:#FFF;
             font-size:20px;
             margin-left:65px;
-            margin-top:3px;
+            margin-top:5px;
             text-align:center;
         }
+        .smfont {
+            font-size:16px;
+        }
         .by_coinigy {
-            font-size:12px;
+            font-size:10px;
             font-weight:normal;
         }
         .mainMenu {

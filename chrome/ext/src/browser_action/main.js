@@ -121,7 +121,7 @@ function saveUserData(confirm) {
 function apiConnect(userData) {
     showSpinner();
     SCsocket = socketCluster.connect({
-        hostname: 'sc-01.coinigy.com',
+        hostname: 'sc-02.coinigy.com',
         secure: true,
         port: 443
     });
@@ -134,7 +134,7 @@ function apiConnect(userData) {
         SCsocket.emit("auth", userData, function (err, msg) {
             // console.log(msg);
 
-            if (typeof err == 'undefined') {
+            if (err == null || typeof err == 'undefined') {
                 
                 var scChannel = SCsocket.subscribe("TICKER");
                 

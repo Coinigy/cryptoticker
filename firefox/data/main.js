@@ -25,7 +25,7 @@ Number.prototype.noExponents = function () {
 function apiConnect(userData) {
     showSpinner();
     SCsocket = socketCluster.connect({
-        hostname: 'sc-01.coinigy.com',
+        hostname: 'sc-02.coinigy.com',
         secure: true,
         port: 443
     });
