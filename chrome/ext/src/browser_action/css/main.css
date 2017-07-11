@@ -1,284 +1,315 @@
 body {
-            background-color:#000;
-        }
-        #mainRow {
-            border-radius:3px;
-        }
-        .tickerObject {
-            padding: 10px;
-            height: 65px;
-            width: 400px;
-            font-family: Helvetica, Ubuntu, Arial, sans-serif;
-            border: 1px rgba(89,89,89, 0.1) solid;
-            margin:3px;
-            background: rgba(0,0,0,0.9);
-            border-bottom:3px solid rgba(0,0,0,0.4);
-            margin-top:0px;
-            margin-bottom:0px;
-        }
-        .exchangeCode {
-            float:left;
-            font-size:14px;
-            font-weight:bold;
-            line-height:40px;
-            color:#888;
-            width:60px;
-            text-align:right;
-            padding-right:5px;
-        }
-        .marketName {
-            float:left;
-            font-size:18px;
-            font-weight:bold;
-            width:105px;
-            text-align:left;
-            color:#FFF;
-            line-height:36px;
-        }
+    background-color:#000;
+}
+#mainRow {
+    border-radius:3px;
+}
+.tickerObject {
+    padding: 10px;
+    height: 65px;
+    width: 400px;
+    font-family: Helvetica, Ubuntu, Arial, sans-serif;
+    border: 1px rgba(89,89,89, 0.1) solid;
+    margin:3px;
+    background: rgba(0,0,0,0.9);
+    border-bottom:3px solid rgba(0,0,0,0.4);
+    margin-top:0px;
+    margin-bottom:0px;
+}
+.exchangeCode {
+    float:left;
+    font-size:14px;
+    font-weight:bold;
+    line-height:40px;
+    color:#888;
+    width:60px;
+    text-align:right;
+    padding-right:5px;
+}
+.marketName {
+    float:left;
+    font-size:18px;
+    font-weight:bold;
+    width:105px;
+    text-align:left;
+    color:#FFF;
+    line-height:36px;
+}
 
-        .tinyFontText {
-            font-size:14px;
-        }
-        .smallerFontText {
-            font-size:16px;
-        }
-        .largerFontText {
-            font-size:20px;
-        }
+.tinyFontText {
+    font-size:14px;
+}
+.smallerFontText {
+    font-size:16px;
+}
+.largerFontText {
+    font-size:20px;
+}
 
-        .miniChart {
-            float:right;
-            padding-right:5px;
-            margin-bottom:10px;
-        }
-        .priceData {
-            float:right;
-            width:100px;
-            height:40px;
-            overflow:hidden;
-            color:#FFF;
-        }
-        .lastPriceContainer {
-            float:right;
-            font-size:16px;
-            font-weight:bold;
-            width:100px;
-            line-height:20px;
-            height:25px;
-            text-align:right;
-        }
+.miniChart {
+    float:right;
+    padding-right:5px;
+    margin-bottom:10px;
+}
+.priceData {
+    float:right;
+    width:100px;
+    height:40px;
+    overflow:hidden;
+    color:#FFF;
+}
+.lastPriceContainer {
+    float:right;
+    font-size:16px;
+    font-weight:bold;
+    width:100px;
+    line-height:20px;
+    height:25px;
+    text-align:right;
+}
 
-        .smallerFont {
-            font-size:14px;
-        }
-        .largerFont {
-            font-size:22px;
-        }
+.smallerFont {
+    font-size:14px;
+}
+.largerFont {
+    font-size:22px;
+}
 
 
-        .volume24h {
-            float:right;
-            font-size:14px;
-            font-weight:bold;
-            width:100px;
-            height:15px;
-            line-height:12px;
-            text-align:right;
-        }
+.volume24h {
+    float:right;
+    font-size:14px;
+    font-weight:bold;
+    width:100px;
+    height:15px;
+    line-height:12px;
+    text-align:right;
+}
 
-        @keyframes highlightred {
-          0% {
-            color: #e94a4a;
-          }
-          100% {
-            color: #FFF;
-          }
-        }
+@keyframes highlightred {
+  0% {
+    color: #e94a4a;
+  }
+  100% {
+    color: #FFF;
+  }
+}
 
-        @keyframes highlightgreen {
-          0% {
-            color: #80e853;
-          }
-          100% {
-            color: #FFF;
-          }
-        }
+@keyframes highlightgreen {
+  0% {
+    color: #80e853;
+  }
+  100% {
+    color: #FFF;
+  }
+}
 
-        @keyframes disappear {
-          0% {
-            opacity:1.0;
-          }
-          100% {
-            opacity:0.0;
-          }
-        }
+@keyframes disappear {
+  0% {
+    opacity:1.0;
+  }
+  100% {
+    opacity:0.0;
+  }
+}
 
-        .disappearing {
-            animation: disappear 4s;
-            -webkit-animation-fill-mode: forwards;
-        }
+.disappearing {
+    animation: disappear 4s;
+    -webkit-animation-fill-mode: forwards;
+}
 
-        .highlightRed {
-          animation: highlightred 4s;
-        }
-        .highlightGreen {
-          animation: highlightgreen 4s;
-        }
-        .arrow {
-            font-size:14px;
-        }
-        .topElement {
-            border-top-left-radius: 3px;
-            border-top-right-radius: 3px;
-            padding: 10px;
-            height: 60px;
-            width: 400px;
-            font-family: Helvetica, Ubuntu, Arial, sans-serif;
-            background: #323232;
-            margin-left:3px;        
-            margin-right:3px; 
-            margin-top:3px;   
-            border-bottom:3px solid rgba(0,0,0,0.4); 
-        }
-        .action_icon:hover {
-            cursor:pointer;
-            background-color:rgba(255,255,255,0.2);
-        }
-        .logo_sm {
-            float:left;
-        }
-        .action_icon {
-            float:right;
-        }
-        .title {
-            float:left;
-            font-weight:500;
-            color:#FFF;
-            font-size:20px;
-            margin-left:65px;
-            margin-top:5px;
-            text-align:center;
-        }
-        .smfont {
-            font-size:16px;
-        }
-        .by_coinigy {
-            font-size:10px;
-            font-weight:normal;
-        }
-        .mainMenu {
-            padding: 10px;
-            height: 210px;
-            width: 400px;
-            font-family: Helvetica, Ubuntu, Arial, sans-serif;
-            border: 1px rgba(89,89,89, 0.1) solid;
-            background: rgb(255,255,255);
-            margin:3px;
-            background: rgba(0,0,0,0.9);
-            border-bottom:3px solid rgba(0,0,0,0.4);
-            margin-top:0px;
-            margin-bottom:0px;
-        }
-        .niceTable {
-            font-size:16px;
-            color:#fff;
-            width:350px;
-            margin-left:auto;
-            margin-right:auto;
-        }
-        .niceTable td {
-            padding:5px;
-        }
-        .niceLabel {
-            text-align:right;
-            padding-right:10px;
-        }
-        .niceInput {
-            color:#272727;
-            border-radius:5px;
-        }
-        #messageBox {
-            width:300px;
-            margin-left:auto;
-            margin-right:auto;
-        }
-        .loader {
-            margin-top:85px;
-            margin-left:auto;
-            margin-right:auto;
-        }
-        .loader--circularSquare {
-          width: 0;
-          height: 0;
-          box-shadow: -0.625em -0.625em 0 0.625em #9b59b6, 0.625em -0.625em 0 0.625em #9b59b6, -0.625em 0.625em 0 0.625em #9b59b6, 0.625em 0.625em 0 0.625em #9b59b6;
-          animation: circSquare 1.5s ease-in-out infinite;
-        }
-        @keyframes circSquare {
-          50% {
-            width: 1.25em;
-            height: 1.25em;
-            border-radius: 50%;
-            transform: rotate(0.5turn);
-            box-shadow: -2.5em 0 0 #2ecc71, 2.5em 0 0 #e74c3c, -2.5em 0 0 #3498db, 2.5em 0 0 #f1c40f;
-          }
-          80%, 100% {
-            transform: rotate(1turn);
-          }
-        }
-        .centered {
-            text-align:center;
-        }
-        .bigLink {
-            color:#65eb64;
-            font-weight:bold;
-        }
-        .bigLink:hover {
-            color:#92ff92;
-            font-weight:bold;
-        }
-        .biggerLink {
-            color:#40a3ff;
-            font-weight:bold;
-            font-size:26px;
-        }
-        .biggerLink:hover {
-            color:#75bdff;
-            font-weight:bold;
-        }
-        .smallLink {
-            color:#ff9c52;
-            font-size:12px;
-        }
-        .smallLink:hover {
-            color:#ffc092;
-        }
-        .signupLink {
-            color:#65eb64;
-        }
-        .signupLink:hover {
-            color:#92ff92;
-        }
-        .step1 {
-            margin:30px;
-        }
-        .or {
-            border-bottom:2px dashed #2b2b2b;
-            height:20px;
-        }
-        .spaced {
-            height:15px;
-        }
-        .optionsMenu {
-            text-align:center;
-            margin-top:0px;
-            height:170px;
-            width:100%;
-        }
-        .optionsObject {
-            margin-top:40px;
-        }
-        .tickerObject:hover {
-            cursor:pointer;
-            background: rgba(0,0,0,0.8);
-        }
-        
+.highlightRed {
+  animation: highlightred 4s;
+}
+.highlightGreen {
+  animation: highlightgreen 4s;
+}
+.arrow {
+    font-size:14px;
+}
+.topElement {
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    padding: 10px;
+    height: 60px;
+    width: 400px;
+    font-family: Helvetica, Ubuntu, Arial, sans-serif;
+    background: #323232;
+    margin-left:3px;        
+    margin-right:3px; 
+    margin-top:3px;   
+    border-bottom:3px solid rgba(0,0,0,0.4); 
+}
+.action_icon:hover {
+    cursor:pointer;
+    background-color:rgba(255,255,255,0.2);
+}
+.logo_sm {
+    float:left;
+}
+.action_icon {
+    float:right;
+}
+.title {
+    float:left;
+    font-weight:500;
+    color:#FFF;
+    font-size:20px;
+    margin-left:65px;
+    margin-top:5px;
+    text-align:center;
+}
+.smfont {
+    font-size:16px;
+}
+.by_coinigy {
+    font-size:10px;
+    font-weight:normal;
+}
+.mainMenu {
+    padding: 10px;
+    height: 250px;
+    width: 400px;
+    font-family: Helvetica, Ubuntu, Arial, sans-serif;
+    border: 1px rgba(89,89,89, 0.1) solid;
+    background: rgb(255,255,255);
+    margin:3px;
+    background: rgba(0,0,0,0.9);
+    border-bottom:3px solid rgba(0,0,0,0.4);
+    margin-top:0px;
+    margin-bottom:0px;
+}
+.niceTable {
+    font-size:16px;
+    color:#fff;
+    width:350px;
+    margin-left:auto;
+    margin-right:auto;
+}
+.niceTable td {
+    padding:5px;
+}
+.niceLabel {
+    text-align:right;
+    padding-right:10px;
+}
+.niceInput {
+    color:#272727;
+    border-radius:5px;
+}
+#messageBox {
+    width:300px;
+    margin-left:auto;
+    margin-right:auto;
+}
+.loader {
+    margin-top:85px;
+    margin-left:auto;
+    margin-right:auto;
+}
+.loader--circularSquare {
+  width: 0;
+  height: 0;
+  box-shadow: -0.625em -0.625em 0 0.625em #9b59b6, 0.625em -0.625em 0 0.625em #9b59b6, -0.625em 0.625em 0 0.625em #9b59b6, 0.625em 0.625em 0 0.625em #9b59b6;
+  animation: circSquare 1.5s ease-in-out infinite;
+}
+@keyframes circSquare {
+  50% {
+    width: 1.25em;
+    height: 1.25em;
+    border-radius: 50%;
+    transform: rotate(0.5turn);
+    box-shadow: -2.5em 0 0 #2ecc71, 2.5em 0 0 #e74c3c, -2.5em 0 0 #3498db, 2.5em 0 0 #f1c40f;
+  }
+  80%, 100% {
+    transform: rotate(1turn);
+  }
+}
+.centered {
+    text-align:center;
+}
+.bigLink {
+    color:#65eb64;
+    font-weight:bold;
+}
+.bigLink:hover {
+    color:#92ff92;
+    font-weight:bold;
+}
+.biggerLink {
+    color:#40a3ff;
+    font-weight:bold;
+    font-size:26px;
+}
+.biggerLink:hover {
+    color:#75bdff;
+    font-weight:bold;
+}
+.smallLink {
+    color:#ff9c52;
+    font-size:12px;
+}
+.smallLink:hover {
+    color:#ffc092;
+}
+.signupLink {
+    color:#65eb64;
+}
+.signupLink:hover {
+    color:#92ff92;
+}
+.step1 {
+    margin:50px;
+}
+.or {
+    border-bottom:2px dashed #2b2b2b;
+    height:20px;
+}
+.spaced {
+    height:15px;
+}
+.optionsMenu {
+    text-align:center;
+    margin-top:0px;
+    height:170px;
+    width:100%;
+}
+.optionsObject {
+    margin-top:40px;
+}
+.tickerObject:hover {
+    cursor:pointer;
+    background: rgba(0,0,0,0.8);
+}
+.infolink:before
+{
+    content: '?';
+    display: inline-block;
+    font-family: sans-serif;
+    font-weight: bold;
+    text-align: center;
+    width: 1.8ex;
+    height: 1.8ex;
+    font-size: 1.2ex;
+    line-height: 1.4ex;
+    border-radius: 1.2ex;
+    margin-right: 4px;
+    padding: 1px;
+    color: blue;
+    background: white;
+    border: 1px solid white;
+    text-decoration: none;
+}
+.infolink:hover:before
+{
+    color: white;
+    background: blue;
+    border-color: white;
+    text-decoration: none;
+}
+.privateChannelText {
+    font-size:0.9em;
+}
+.pulseMessage {
+    text-align:center;
+}

@@ -34,6 +34,13 @@ function showMenu() {
     }
 }
 
+function showOptions() {
+    //$('.mainMenu').slideToggle();
+    $('.mainMenu').show();
+        $('.optionsMenu').removeClass('hide');
+    
+}
+
 function connectionError() {
     chrome.storage.sync.set({ 'confirmed': false }, function () {
     });
@@ -55,7 +62,7 @@ function hideSpinner() {
 }
 
 function deleteUserData() {
-    chrome.storage.sync.remove(['apiKey', 'apiSecret', 'confirmed'], function () {
+    chrome.storage.sync.remove(['apiKey', 'apiSecret', 'apiChannel', 'confirmed'], function () {
         message('Your API keys have been removed.');
         checkUserData();
         SCsocket.disconnect();
@@ -68,11 +75,11 @@ function deleteUserData() {
 
 function checkUserData() {
     showSpinner();
-    chrome.storage.sync.get(['apiKey', 'apiSecret', 'confirmed'], function (data) {
+    chrome.storage.sync.get(['apiKey', 'apiSecret', 'apiChannel', 'confirmed'], function (data) {
         
         
         if (data.confirmed == true) {
-                if (!data.apiKey || !data.apiSecret) {
+                if (!data.apiKey || !data.apiSecret || !data.apiChannel) {
                     hideSpinner();
                     $('.niceTable').removeClass('hide');
                 } else {
@@ -86,6 +93,7 @@ function checkUserData() {
                 $('.step2').addClass('hide');
                 $('#api_key').val(data.apiKey);
                 $('#api_secret').val(data.apiSecret);
+                $('#api_channel').val(data.apiChannel);
             
         }
         
@@ -98,15 +106,16 @@ function saveUserData(confirm) {
     
     var api_key = $('#api_key').val();
     var api_secret = $('#api_secret').val();
+    var api_channel = $('#api_channel').val();
     
     if (confirm == true) {
-        if (!api_key || !api_secret) {
-            message('Please enter your Coinigy.com API and Secret key.<br/><br/>If you need an account, <a href="https://www.coinigy.com">Click here</a>');
+        if (!api_key || !api_secret || !api_channel) {
+            message('Please enter your Coinigy.com API keys and Private Channel ID.<br/><br/>If you need an account, <a href="https://www.coinigy.com">Click here</a>');
             return;
         }
     }
     // Save data using the Chrome extension storage API.
-    chrome.storage.sync.set({ 'apiKey': api_key, 'apiSecret': api_secret }, function () {
+    chrome.storage.sync.set({ 'apiKey': api_key, 'apiSecret': api_secret, 'apiChannel': api_channel }, function () {
     // add error handling
     });
     
@@ -125,100 +134,115 @@ function apiConnect(userData) {
         secure: true,
         port: 443
     });
-
+$('.pulseMessage').html('Connecting...');
     
 
     SCsocket.on('connect', function (status) {
-        // console.log(status);
+        $('.pulseMessage').html('Connected.');
 
         SCsocket.emit("auth", userData, function (err, msg) {
-            // console.log(msg);
+            $('.pulseMessage').html('Authenticating...');
 
             if (err == null || typeof err == 'undefined') {
+                $('.pulseMessage').html('Authenticated.');
                 
-                var scChannel = SCsocket.subscribe("TICKER");
+                var scChannel = SCsocket.subscribe(userData.apiChannel);
+                $('.pulseMessage').html('Waiting for next data pulse...');
                 
                 var checkMarkets = setTimeout(function () {
                     if (hasMarkets == false) {
                         message("<div>It looks like you may not have any <b>Favorite Markets</b> setup on Coinigy. <a href='https://www.coinigy.com/auth/login'>Click here to login and add Favorites</a><br/><img src='img/no_favorites.png'></div>");
                     }
-                }, 10000);
+                }, 40000);
 
-                scChannel.watch(function (data) {
-                        hasMarkets = true;
-                        var divId = data.exch_code + "_" + data.display_name;
-                        divId = divId.replace(/\//g, '_');
-                        
-                        var prevPrice = $("#" + divId + "").find('.lastPrice').html();
-                        prevPrice = Number(prevPrice).noExponents();
-
-
-                        data.last_price = Number(data.last_price).noExponents();
-
-                        if (data.btc_volume_24 > 0) {
-                            data.btc_volume_24 = Number(data.btc_volume_24).noExponents();
-                        } else {
-                            data.btc_volume_24 = Number(data.volume_24).noExponents();
-                        }
-                        
-                        if (isNaN(prevPrice)) {
-                            prevPrice = data.last_price;
-                        }
-
-                        
-                        var textFontSize = "";
-                        if (data.display_name.length > 9) { textFontSize = "tinyFontText"; }
-                        if (data.display_name.length > 7) { textFontSize = "smallerFontText"; }
-                        if (data.display_name.length < 8) { textFontSize = "largerFontText"; }
-
-
-                        var priceFontSize = "";
-                        if (data.last_price.length > 10) { priceFontSize = "smallerFont"; }
-                        if (data.last_price.length < 9) { priceFontSize = "largerFont"; }
-
-                        
-                        if ($("#" + divId + "").length) {
-                            $("#" + divId + "").find('.lastPrice').html(data.last_price);
-                            $("#" + divId + "").find('.volume24h').html(data.btc_volume_24);
-                            $("#" + divId + "").find('.arrow').remove();
-                            $("#" + divId + "").find('.lastPriceContainer').removeClass("highlightGreen");
-                            $("#" + divId + "").find('.lastPriceContainer').removeClass("highlightRed");
-                            $("#" + divId + "").find('.lastPriceContainer').removeClass("smallerFont");
-                            $("#" + divId + "").find('.lastPriceContainer').removeClass("largerFont");
-                            $("#" + divId + "").find('.lastPriceContainer').addClass(priceFontSize);
-                        } else {
-                            var tickerObject = '<div id="' + divId + '" class="col-md-12 tickerObject" data-exchcode="' + data.exch_code + '" data-mktname="' + data.mkt_name + '" style="padding-left:0px;">' +
-                                                    '<div class="exchangeCode">' + data.exch_code + '</div>' +
-                                                    '<div class="marketName ' + textFontSize + '">' + data.display_name + '</div>' +
-                                                    '<div class="priceData">' +
-                                                        '<div id="lastPrice' + divId + '" class="lastPriceContainer ' + priceFontSize + '" style="width:100px;height:25px;"><span class="lastPrice">' + data.last_price + '</span></div>' +
-                                                        '<div class="volume24h">' + data.btc_volume_24 + '</div>' +
-                                                    '</div>' +
-                                                    '<div class="miniChart"><img src="https://www.coinigy.com/s/svg/' + data.exch_code + '/' + data.display_name + '" width="110" /></div>' +
-                                               '</div>';
-                            $('#mainRow').append(tickerObject);
-                        }
-                        
-                        
-                            if (data.last_price > prevPrice) {
-                                $("#" + divId + "").find('.lastPriceContainer').prepend("<span class='arrow'>&#9650;</span>");
-                                $("#" + divId + "").find('.lastPriceContainer').addClass("highlightGreen");
-                                $("#" + divId + "").find('.lastPriceContainer').find('.arrow').addClass("disappearing");
-                            } else if (data.last_price < prevPrice) {
-                                $("#" + divId + "").find('.lastPriceContainer').prepend("<span class='arrow'>&#9660;</span>");
-                                $("#" + divId + "").find('.lastPriceContainer').addClass("highlightRed");
-                                $("#" + divId + "").find('.lastPriceContainer').find('.arrow').addClass("disappearing");
-                            }
-                        
-                        
+                scChannel.watch(function (pulseData) {
                     
-                    if (firstConnect == true) {
-                        $('.mainMenu').slideUp();
-                        setTimeout(function () {
-                            hideSpinner();
-                        }, 500);
-                        firstConnect = false;
+                    if (pulseData.MessageType == "Favorite") {
+                        
+                        
+                        for (var i = 0; i < pulseData.Data.length; i++) {
+                            var data = pulseData.Data[i];
+
+                            hasMarkets = true;
+                            var divId = data.exch_code + "_" + data.display_name;
+                            divId = divId.replace(/\//g, '_');
+                            
+                            
+                            var prevPrice = $("#" + divId + "").find('.lastPrice').html();
+                            prevPrice = Number(prevPrice).noExponents();
+
+
+                            data.last_price = Number(data.last_price).noExponents();
+
+                            if (data.btc_volume_24 > 0) {
+                                data.btc_volume_24 = Number(data.btc_volume_24).noExponents();
+                            } else {
+                                data.btc_volume_24 = Number(data.volume_24).noExponents();
+                            }
+                            
+                            if (isNaN(prevPrice)) {
+                                prevPrice = data.last_price;
+                            }
+
+                            
+                            var textFontSize = "";
+                            if (data.display_name.length > 9) { textFontSize = "tinyFontText"; }
+                            if (data.display_name.length > 7) { textFontSize = "smallerFontText"; }
+                            if (data.display_name.length < 8) { textFontSize = "largerFontText"; }
+
+
+                            var priceFontSize = "";
+                            if (data.last_price.length > 10) { priceFontSize = "smallerFont"; }
+                            if (data.last_price.length < 9) { priceFontSize = "largerFont"; }
+
+                            
+                            if ($("#" + divId + "").length) {
+                                $("#" + divId + "").find('.lastPrice').html(data.last_price);
+                                $("#" + divId + "").find('.volume24h').html(data.btc_volume_24);
+                                $("#" + divId + "").find('.arrow').remove();
+                                $("#" + divId + "").find('.lastPriceContainer').removeClass("highlightGreen");
+                                $("#" + divId + "").find('.lastPriceContainer').removeClass("highlightRed");
+                                $("#" + divId + "").find('.lastPriceContainer').removeClass("smallerFont");
+                                $("#" + divId + "").find('.lastPriceContainer').removeClass("largerFont");
+                                $("#" + divId + "").find('.lastPriceContainer').addClass(priceFontSize);
+                            } else {
+                                var tickerObject = '<div id="' + divId + '" class="col-md-12 tickerObject" data-exchcode="' + data.exch_code + '" data-mktname="' + data.mkt_name + '" style="padding-left:0px;">' +
+                                                        '<div class="exchangeCode">' + data.exch_code + '</div>' +
+                                                        '<div class="marketName ' + textFontSize + '">' + data.display_name + '</div>' +
+                                                        '<div class="priceData">' +
+                                                            '<div id="lastPrice' + divId + '" class="lastPriceContainer ' + priceFontSize + '" style="width:100px;height:25px;"><span class="lastPrice">' + data.last_price + '</span></div>' +
+                                                            '<div class="volume24h">' + data.btc_volume_24 + '</div>' +
+                                                        '</div>' +
+                                                        '<div class="miniChart"><img src="https://www.coinigy.com/s/svg/' + data.exch_code + '/' + data.display_name + '" width="110" /></div>' +
+                                                   '</div>';
+                                $('#mainRow').append(tickerObject);
+                            }
+                            
+                            
+                                if (data.last_price > prevPrice) {
+                                    $("#" + divId + "").find('.lastPriceContainer').prepend("<span class='arrow'>&#9650;</span>");
+                                    $("#" + divId + "").find('.lastPriceContainer').addClass("highlightGreen");
+                                    $("#" + divId + "").find('.lastPriceContainer').find('.arrow').addClass("disappearing");
+                                } else if (data.last_price < prevPrice) {
+                                    $("#" + divId + "").find('.lastPriceContainer').prepend("<span class='arrow'>&#9660;</span>");
+                                    $("#" + divId + "").find('.lastPriceContainer').addClass("highlightRed");
+                                    $("#" + divId + "").find('.lastPriceContainer').find('.arrow').addClass("disappearing");
+                                }
+                            
+                            
+                        
+                            if (firstConnect == true) {
+                                $('.mainMenu').slideUp();
+                                setTimeout(function () {
+                                    hideSpinner();
+                                }, 500);
+                                firstConnect = false;
+                            }
+
+                        }
                     }
+
+
                 });
 
 
@@ -240,6 +264,10 @@ function apiConnect(userData) {
                 //});
 
                 
+            }else {
+                message('Authentication failed. Did you enter the right API keys?');     
+                hideSpinner();
+                showOptions();   
             }
         });
 
@@ -282,6 +310,9 @@ $(document).ready(function () {
         saveUserData();
     });
     $('#api_secret').bind('input', function () {
+        saveUserData();
+    });
+    $('#api_channel').bind('input', function () {
         saveUserData();
     });
     $('body').on('click', 'a', function () {
